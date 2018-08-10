@@ -1,6 +1,6 @@
 <!-- Victor Zhang, created August 7, 2018 -->
 <!-- Test website for the data acquisition -->
-<!-- version 0.0.1-->
+<!-- version 0.0.2-->
 <!-- HTML&CSS -->
 
 <!DOCTYPE html>
@@ -62,22 +62,59 @@
 window.onload=function(){ with (new XMLHttpRequest()) {
   onreadystatechange=cb; open('GET','tempData.dat',true); responseType='text';send();
 }}
-function cb(){if(this.readyState===4)document.getElementById('main')
-                                             .innerHTML=tbl(this.responseText); }
+function cb(){
+    if(this.readyState===4){
+        if(this.status === 200 || this.status === 0){
+            document.getElementById('main').innerHTML = tbl(this.responseText); 
+        }
+    }
+}
 function tbl(csv){
- dat = csv.split('\n');
+    chl1Low = 295;
+    chl1Up = 295.2;
+    chl2Low = 295;
+    chl2Up = 295.2;
+    chl3Low = 295;
+    chl3Up = 295.2;
+    chl4Low = 295;
+    chl4Up = 295.2;
+    chl5Low = 295;
+    chl5Up = 295.2;
+    chl6Low = 295;
+    chl6Up = 295.2;
+    chl7Low = 295;
+    chl7Up = 295.2;
+    chl8Low = 295;
+    chl8Up = 295.2;
+
+    dat = csv.split('\n');
 
 //           .map(function(tr,i){return '<tr><td style = "text-align:center">'
 //                                     +tr.replace(/,/g,'</td><td style = "text-align:center">')
 //                                     +'</td></tr>';})
 //           .join('\n');
-  printDat = ""
-  for (i=0;i <4; i++){ printDat += '<tr><td style = "text-align:center">'
-                                      +dat[i].replace(/,/g,'</td><td style = "text-align:center">')
-                                       +'</td></tr>';
-                                     }
-    return printDat;
+    printDat = "<tr><th>Time and Date</th><th>Channel 1</th><th>Channel 2</th><th>Channel 3</th><th>Channel 4</th><th>Channel 5</th><th>Channel 6</th><th>Channel 7</th><th>Channel 8</th></tr><tr><th></th><th>PT2 Head</th><th>PT2 Plate</th><th>1 K Plate</th><th>Still</th><th>mK Plate Cernox</th><th>PT1 Head</th><th>PT1 Plate</th><th>mK Plate RuOx</th></tr>";
+    tempRow = "";
+    for (i=dat.length-1;i>=dat.length-5; i--){ 
+        tempRow = dat[i].split(',');
+        //return "past tempRow";
+        printDat+='<tr><td style = "text-align:center">' + tempRow[0] + '</td>';
+        for (j = 1; j < 9; j++){
+//            return "in for";
+            if (parseFloat(tempRow[j]) >= chl1Low && parseFloat(tempRow[j])<=chlUp){
+                return j + "here";
+                printDat += '<td style = "text-align:center;color:green">' + tempRow[j] + '</td>';
+            }
+            else{
+                printDat += '<td style = "text-align:center;color:red">' + tempRow[j] + '</td>';
+            }
+        }
+        //printDat += '<tr><td style = "text-align:center">' + dat[i].replace(/,/g,'</td><td style = "text-align:center">') + '</td></tr>';
     }
+    printDat+="</tr>"
+    return printDat; //+ " " + (parseFloat(tempRow[1])+1).toString();
+    //return '<tr>' + dat.length+ '</tr>'; 
+}
 </script>
 
 
@@ -88,6 +125,32 @@ function tbl(csv){
 </head>
 
 <body>
+<!--
+    <input type="button" id='script' name="scriptbutton" value=" Run Script " onclick="goPython()">
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script>
+        function goPython(){
+            $.ajax({
+              url: "realTime_my_socket.py",
+             context: document.body
+            }).done(function() {
+             alert('finished python script');;
+            });
+        }
+    </script>-->
+
+
+
+
+
+
+
+
+
+
+
   <div class = "titleDiv">
     <h1>Test Data Acquisition Page</h1>
   </div>
@@ -106,56 +169,11 @@ function tbl(csv){
     </table>
   </div>
   <div class = "dataDivY">
-    <table style="width:100%;text-align:center;background-color:green;">
-      <tr>
-        <th>Time and Date</th>
-        <th>Channel 1</th>
-        <th>Channel 2</th>
-        <th>Channel 3</th>
-        <th>Channel 4</th>
-        <th>Channel 5</th>
-        <th>Channel 6</th>
-        <th>Channel 7</th>
-        <th>Channel 8</th>
-      </tr>
-      <tr>
-        <td>2018-08-03 20:40:16</td>
-        <td>+286.644E+00</td>
-        <td>+286.738E+00</td>
-        <td>+00.0000E-03</td>
-        <td>+0.00000E+00</td>
-        <td>+281.326E+00</td>
-        <td>+291.777E+00</td>
-        <td>+291.697E+00</td>
-        <td>+00.0000E-03</td>
-      </tr>
-      <tr>
-        <td>2018-08-03 20:41:16</td>
-        <td>+286.741E+00</td>
-        <td>+286.791E+00</td>
-        <td>+00.0000E-03</td>
-        <td>+0.00000E+00</td>
-        <td>+281.326E+00</td>
-        <td>+291.777E+00</td>
-        <td>+291.750E+00</td>
-        <td>+00.0000E-03</td>
-      </tr>
-      <tr>
-        <td>2018-08-03 20:42:16</td>
-        <td>+286.752E+00</td>
-        <td>+286.864E+00</td>
-        <td>+00.0000E-03</td>
-        <td>+0.00000E+00</td>
-        <td>+281.326E+00</td>
-        <td>+291.777E+00</td>
-        <td>+291.750E+00</td>
-        <td>+00.0000E-03</td>
-      </tr>
-    </table>
+    <table id = "main" style="width:100%;text-align:center;background-color:yellow;"></table>
   </div>
 
   <div class = "imgbox">
-   <img class = "center-fit" src=../Socket_Communication/Temp%20Images/PT2%20Temp%20vs%20Time.png></img>
+   <img class = "center-fit" src='realTimeTempGraph2.png'></img>
   </div>
   <div class = "imgbox">
    <img class = "center-fit" src="http://goo.gl/ijai22" />
@@ -169,10 +187,6 @@ function tbl(csv){
   <h2>Temperature of Channel 1</h2>
   <h3>temp: 100K</h3>
   <h2>Temp Chl 2 </h2>
-
-    <table id = "main" style = "width: 100%"></table>
-    
-
 
   <p><font color = "red">asdlfkn fd aklfld askfdsl slfkl lakfslk skl kalk  klkcmlcicnckd a; 'ds lasf dlld'</font></p>
   <b>Bold text</b>
