@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="refresh" content="5; URL=test_website.html">
   <style>
    /* * {
     margin: 0.5%;
@@ -56,6 +57,33 @@
   </style>
 
     <title>Data Acquisition Page </title>
+
+<script>
+window.onload=function(){ with (new XMLHttpRequest()) {
+  onreadystatechange=cb; open('GET','tempData.dat',true); responseType='text';send();
+}}
+function cb(){if(this.readyState===4)document.getElementById('main')
+                                             .innerHTML=tbl(this.responseText); }
+function tbl(csv){
+ dat = csv.split('\n');
+
+//           .map(function(tr,i){return '<tr><td style = "text-align:center">'
+//                                     +tr.replace(/,/g,'</td><td style = "text-align:center">')
+//                                     +'</td></tr>';})
+//           .join('\n');
+  printDat = ""
+  for (i=0;i <4; i++){ printDat += '<tr><td style = "text-align:center">'
+                                      +dat[i].replace(/,/g,'</td><td style = "text-align:center">')
+                                       +'</td></tr>';
+                                     }
+    return printDat;
+    }
+</script>
+
+
+
+
+
 
 </head>
 
@@ -140,8 +168,10 @@
   <h2>Possible Location for Temperature of Cryostat?</h2>
   <h2>Temperature of Channel 1</h2>
   <h3>temp: 100K</h3>
-  <h2>Temp Chl 2</h2>
+  <h2>Temp Chl 2 </h2>
 
+    <table id = "main" style = "width: 100%"></table>
+    
 
 
   <p><font color = "red">asdlfkn fd aklfld askfdsl slfkl lakfslk skl kalk  klkcmlcicnckd a; 'ds lasf dlld'</font></p>
