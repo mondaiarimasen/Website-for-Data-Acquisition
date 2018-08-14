@@ -71,7 +71,7 @@ function cb(){
 }
 function tbl(csv){
     chl1Low = 295;
-    chl1Up = 295.2;
+    chl1Up = 296.2;
     chl2Low = 295;
     chl2Up = 295.2;
     chl3Low = 295;
@@ -89,31 +89,24 @@ function tbl(csv){
 
     dat = csv.split('\n');
 
-//           .map(function(tr,i){return '<tr><td style = "text-align:center">'
-//                                     +tr.replace(/,/g,'</td><td style = "text-align:center">')
-//                                     +'</td></tr>';})
-//           .join('\n');
     printDat = "<tr><th>Time and Date</th><th>Channel 1</th><th>Channel 2</th><th>Channel 3</th><th>Channel 4</th><th>Channel 5</th><th>Channel 6</th><th>Channel 7</th><th>Channel 8</th></tr><tr><th></th><th>PT2 Head</th><th>PT2 Plate</th><th>1 K Plate</th><th>Still</th><th>mK Plate Cernox</th><th>PT1 Head</th><th>PT1 Plate</th><th>mK Plate RuOx</th></tr>";
     tempRow = "";
-    for (i=dat.length-1;i>=dat.length-5; i--){ 
+
+    // to start printing from the most recent data point (last row in the tempData.dat list), in the for loop below, i must start from dat.length-2, since dat.length-1 is an empty row (in realTime_my_socket.py, I add "\n" at the end of writing each row, and in dat = csv.split('\n') above, the separator is '\n', so the last element of dat (dat is an array, where each element is an entire row of tempData.dat) is empty
+    for (i=dat.length-2; i>=dat.length-5; i--){ 
         tempRow = dat[i].split(',');
-        //return "past tempRow";
         printDat+='<tr><td style = "text-align:center">' + tempRow[0] + '</td>';
         for (j = 1; j < 9; j++){
-//            return "in for";
-            if (parseFloat(tempRow[j]) >= chl1Low && parseFloat(tempRow[j])<=chlUp){
-                return j + "here";
+            if (parseFloat(tempRow[j]) >= chl1Low && parseFloat(tempRow[j])<=chl1Up){
                 printDat += '<td style = "text-align:center;color:green">' + tempRow[j] + '</td>';
             }
             else{
                 printDat += '<td style = "text-align:center;color:red">' + tempRow[j] + '</td>';
             }
         }
-        //printDat += '<tr><td style = "text-align:center">' + dat[i].replace(/,/g,'</td><td style = "text-align:center">') + '</td></tr>';
+        printDat += "</tr>";
     }
-    printDat+="</tr>"
-    return printDat; //+ " " + (parseFloat(tempRow[1])+1).toString();
-    //return '<tr>' + dat.length+ '</tr>'; 
+    return printDat; 
 }
 </script>
 
