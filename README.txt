@@ -30,6 +30,8 @@ II. Program Descriptions
         ->  displays cooling water flow rate, temp of He compressor, and 
             temp and humidity of lab, but values are hard-coded, and are
             for demo purposes (not exactly real values)
+        ->  data display of temperature of channels only seems to work in 
+            Firefox
 
 *****************************************************************************
 III. Comments
