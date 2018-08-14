@@ -32,6 +32,9 @@ II. Program Descriptions
             for demo purposes (not exactly real values)
         ->  data display of temperature of channels only seems to work in 
             Firefox
+        ->  no images are supposed to be displayed on website in any browser
+            (except the two images from the hardcoded URLs); they are just
+            placeholders, as this a test website
 
 *****************************************************************************
 III. Comments
